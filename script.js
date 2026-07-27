@@ -1,32 +1,33 @@
 const launchButton = document.getElementById("launchButton");
 const countdown = document.getElementById("countdown");
 
-launchButton.addEventListener("click",startLaunch);
+const numbers = [
+    "T - 03",
+    "T - 02",
+    "T - 01",
+    "IGNITION",
+    "LIFTOFF 🚀"
+];
+
+launchButton.addEventListener("click", startLaunch);
 
 async function startLaunch(){
 
-    launchButton.style.display="none";
+    launchButton.style.display = "none";
+    countdown.style.display = "block";
 
-    const numbers=["3","2","1","LIFTOFF 🚀"];
+    for(const item of numbers){
 
-    for(let i=0;i<numbers.length;i++){
+        countdown.textContent = item;
 
-        countdown.innerHTML=numbers[i];
-
-        countdown.classList.add("show");
-
-        await delay(1000);
-
-        countdown.classList.remove("show");
-
-        await delay(300);
+        await sleep(1000);
 
     }
 
 }
 
-function delay(ms){
+function sleep(ms){
 
-    return new Promise(resolve=>setTimeout(resolve,ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
 
 }
