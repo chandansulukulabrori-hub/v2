@@ -1,90 +1,23 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+#countdown{
 
-body{
+    margin-top:40px;
 
-    background:#ffffff;
+    font-size:90px;
 
-    font-family:
-    "Segoe UI",
-    sans-serif;
+    font-weight:200;
 
-    overflow:hidden;
+    color:#1d3d7a;
 
-}
+    opacity:0;
 
-#landing{
+    transition:.5s;
 
-    width:100vw;
-    height:100vh;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
+    letter-spacing:8px;
 
 }
 
-.content{
+.show{
 
-    text-align:center;
-
-}
-
-.small-title{
-
-    color:#8aa6d9;
-
-    letter-spacing:6px;
-
-    text-transform:uppercase;
-
-    margin-bottom:20px;
-
-    font-size:14px;
-
-}
-
-h1{
-
-    font-size:58px;
-
-    font-weight:300;
-
-    color:#222;
-
-    margin-bottom:60px;
-
-}
-
-#launchButton{
-
-    padding:18px 45px;
-
-    border:none;
-
-    border-radius:50px;
-
-    background:#4d7cff;
-
-    color:white;
-
-    font-size:18px;
-
-    cursor:pointer;
-
-    transition:.35s;
-
-}
-
-#launchButton:hover{
-
-    transform:translateY(-4px);
-
-    background:#2d5fe8;
+    opacity:1;
 
 }
