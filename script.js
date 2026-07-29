@@ -23,11 +23,6 @@ launchButton.addEventListener("click", () => {
 
             countdown.textContent = "🚀 Liftoff!";
 
-            setTimeout(() => {
-                // Ganti sesuai halaman berikutnya
-                window.location.href = "home.html";
-            }, 1000);
-
         }
 
     }, 1000);
