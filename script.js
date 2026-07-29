@@ -2,8 +2,8 @@ const launchButton = document.getElementById("launchButton");
 const countdown = document.getElementById("countdown");
 
 const numbers = [
-    "T - 05"
-    "T - 04"
+    "T - 05",
+    "T - 04",
     "T - 03",
     "T - 02",
     "T - 01",
