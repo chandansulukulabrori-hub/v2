@@ -1,33 +1,31 @@
-const launchButton = document.getElementById("launchButton");
 const countdown = document.getElementById("countdown");
+const launchButton = document.getElementById("launchButton");
 
-const numbers = [
-    "T - 03",
-    "T - 02",
-    "T - 01",
-    "IGNITION",
-    "LIFTOFF 🚀"
-];
+launchButton.addEventListener("click", () => {
 
-launchButton.addEventListener("click", startLaunch);
+    launchButton.disabled = true;
 
-async function startLaunch(){
+    let timeLeft = 6;
 
-    launchButton.style.display = "none";
-    countdown.style.display = "block";
+    countdown.textContent = `T - ${timeLeft}`;
 
-    for(const item of numbers){
+    const timer = setInterval(() => {
 
-        countdown.textContent = item;
+        timeLeft--;
 
-        await sleep(1000);
+        if (timeLeft > 0) {
+            countdown.textContent = `T - ${timeLeft}`;
+        } else {
+            clearInterval(timer);
 
-    }
+            countdown.textContent = "🚀 Liftoff!";
 
-}
+            // pindah halaman setelah 1 detik
+            setTimeout(() => {
+                window.location.href = "home.html";
+            }, 1000);
+        }
 
-function sleep(ms){
+    }, 1000);
 
-    return new Promise(resolve => setTimeout(resolve, ms));
-
-}
+});
