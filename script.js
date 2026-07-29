@@ -1,30 +1,35 @@
 const launchButton = document.getElementById("launchButton");
 const countdown = document.getElementById("countdown");
 
-launchButton.addEventListener("click", () => {
+const numbers = [
+    "T - 05"
+    "T - 04"
+    "T - 03",
+    "T - 02",
+    "T - 01",
+    "IGNITION",
+    "LIFTOFF 🚀"
+];
 
-    launchButton.disabled = true;
+launchButton.addEventListener("click", startLaunch);
 
-    let seconds = 6;
+async function startLaunch(){
 
-    countdown.textContent = `T - ${seconds}`;
+    launchButton.style.display = "none";
+    countdown.style.display = "block";
 
-    const timer = setInterval(() => {
+    for(const item of numbers){
 
-        seconds--;
+        countdown.textContent = item;
 
-        if (seconds > 0) {
+        await sleep(1000);
 
-            countdown.textContent = `T - ${seconds}`;
+    }
 
-        } else {
+}
 
-            clearInterval(timer);
+function sleep(ms){
 
-            countdown.textContent = "🚀 Liftoff!";
+    return new Promise(resolve => setTimeout(resolve, ms));
 
-        }
-
-    }, 1000);
-
-});
+}
