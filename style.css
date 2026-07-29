@@ -67,5 +67,13 @@ h1{
     color:#1d3d7a;
 
     display:none;
+#rocketContainer{
+    display: none;
+    margin-top: 30px;
+    text-align: center;
+}
 
+#rocket{
+    overflow: visible;
+}
 }
