@@ -23,18 +23,18 @@ async function startLaunch(){
     for(const item of numbers){
         countdown.textContent = item;
 
-        // PEMICU BARU: Di T-04, api mulai menyala pelan
+        // Pemicu 1: Di T-04, api mesin mulai menyala pelan
         if(item === "T - 04") {
             rocketContainer.classList.add("engine-start");
         }
 
-        // Trigger Ignition (Roket Getar & Asap Mengepul)
+        // Pemicu 2: Di IGNITION, Roket bergetar hebat & asap mengepul
         if(item === "IGNITION") {
             rocketContainer.classList.add("rocket-shake");
             document.body.classList.add("camera-shake"); 
         }
 
-        // Trigger Liftoff (Roket Terbang & Background Berubah)
+        // Pemicu 3: Di LIFTOFF, Roket meluncur & Background Berubah
         if(item === "LIFTOFF 🚀") {
             rocketContainer.classList.remove("rocket-shake"); 
             document.body.classList.remove("camera-shake"); 
