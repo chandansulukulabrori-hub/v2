@@ -16,6 +16,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .content {
@@ -99,7 +100,7 @@ h1 {
     100% { transform: translate(0, 0); }
 }
 
-/* --- TRANSISI KECEPATAN ROKET (Smooth Acceleration) --- */
+/* --- TRANSISI KECEPATAN ROKET --- */
 .rocket-liftoff {
     animation: liftoff 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
@@ -110,7 +111,7 @@ h1 {
     100% { transform: translate(-50%, -150vh); opacity: 0; }
 }
 
-/* --- ANIMASI API MODERN MINIMALIS --- */
+/* --- ANIMASI API --- */
 #flameGroup {
     opacity: 0;
     transition: opacity 0.4s ease-in;
@@ -126,6 +127,7 @@ h1 {
     animation: flickerMain 0.1s infinite alternate;
     transform-origin: 50% 120px;
 }
+
 .flame-core {
     animation: flickerCore 0.08s infinite alternate;
     transform-origin: 50% 120px;
@@ -141,7 +143,7 @@ h1 {
     100% { transform: scaleY(1.3); }
 }
 
-/* --- ANIMASI ASAP BERTAHAP & DI NOZZLE --- */
+/* --- ANIMASI ASAP --- */
 .smoke-cloud {
     position: absolute;
     background: #cbd5e1;
@@ -182,7 +184,7 @@ h1 {
 }
 
 /* ========================================
-   OUTER SPACE & BACKGROUND
+   OUTER SPACE & BACKGROUND (FASE 2)
    ======================================== */
 .to-space {
     animation: skyToSpace 3s ease-in forwards;
@@ -219,7 +221,7 @@ h1 {
 }
 
 /* ========================================
-   STARS
+   STARS (BINTANG)
    ======================================== */
 .star-layer {
     transform-origin: 960px 540px;
@@ -243,7 +245,7 @@ h1 {
 }
 
 /* ========================================
-   MOON
+   MOON (BULAN)
    ======================================== */
 .moon-group {
     transform-origin: 300px 300px;
