@@ -23,7 +23,12 @@ async function startLaunch(){
     for(const item of numbers){
         countdown.textContent = item;
 
-        // Trigger Ignition (Roket Getar)
+        // PEMICU BARU: Di T-04, api mulai menyala pelan
+        if(item === "T - 04") {
+            rocketContainer.classList.add("engine-start");
+        }
+
+        // Trigger Ignition (Roket Getar & Asap Mengepul)
         if(item === "IGNITION") {
             rocketContainer.classList.add("rocket-shake");
             document.body.classList.add("camera-shake"); 
