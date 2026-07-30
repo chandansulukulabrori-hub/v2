@@ -15,7 +15,6 @@ const numbers = [
 launchButton.addEventListener("click", startLaunch);
 
 async function startLaunch(){
-    // Sembunyikan tombol, munculkan teks countdown dan roket
     launchButton.style.display = "none";
     countdown.style.display = "block";
     rocketContainer.style.display = "block"; 
@@ -23,30 +22,27 @@ async function startLaunch(){
     for(const item of numbers){
         countdown.textContent = item;
 
-        // Pemicu 1: Di T-04, api mesin mulai menyala pelan
+        // Di T-04, api mesin mulai menyala pelan
         if(item === "T - 04") {
             rocketContainer.classList.add("engine-start");
         }
 
-        // Pemicu 2: Di IGNITION, Roket bergetar hebat & asap mengepul
+        // Di IGNITION, Roket bergetar hebat & asap abu-abu mengepul
         if(item === "IGNITION") {
             rocketContainer.classList.add("rocket-shake");
             document.body.classList.add("camera-shake"); 
         }
 
-        // Pemicu 3: Di LIFTOFF, Roket meluncur & Background Berubah
+        // Di LIFTOFF, Roket meluncur & Background Berubah jadi luar angkasa
         if(item === "LIFTOFF 🚀") {
             rocketContainer.classList.remove("rocket-shake"); 
             document.body.classList.remove("camera-shake"); 
             
-            // Roket meluncur ke atas
             rocketContainer.classList.add("rocket-liftoff"); 
-            
-            // Background berubah jadi langit luar angkasa
             document.body.classList.add("to-space");
         }
 
-        await sleep(1000); // Jeda 1 detik per tulisan
+        await sleep(1000); 
     }
 }
 
