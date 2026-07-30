@@ -12,7 +12,7 @@ const numbers = [
     "LIFTOFF 🚀"
 ];
 
-// Event listener utama
+// Event listener tombol launch
 launchButton.addEventListener("click", startLaunch);
 
 async function startLaunch(){
@@ -23,18 +23,18 @@ async function startLaunch(){
     for(const item of numbers){
         countdown.textContent = item;
 
-        // Di T-04, api mesin menyala & asap mulai keluar tipis
+        // Pemicu 1: T-04 (Mesin nyala & asap tipis)
         if(item === "T - 04") {
             rocketContainer.classList.add("engine-start");
         }
 
-        // Di IGNITION, Roket bergetar & asap mengepul tebal
+        // Pemicu 2: IGNITION (Getaran & asap tebal)
         if(item === "IGNITION") {
             rocketContainer.classList.add("rocket-shake");
             document.body.classList.add("camera-shake"); 
         }
 
-        // Di LIFTOFF, Roket melesat halus & langit berubah
+        // Pemicu 3: LIFTOFF (Terbang & langit berubah)
         if(item === "LIFTOFF 🚀") {
             rocketContainer.classList.remove("rocket-shake"); 
             document.body.classList.remove("camera-shake"); 
@@ -58,10 +58,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const launchBtn = document.getElementById("launchButton");
     if (launchBtn) {
         launchBtn.addEventListener("click", () => {
-            // Kalkulasi waktu: 6s hitung mundur + 2.5s terbang + 700ms jeda
+            // Kalkulasi: 6s hitung mundur + 2.5s animasi terbang + 700ms jeda sinematik
             setTimeout(() => {
                 triggerDeepSpaceSequence();
-            }, 6000 + 2500 + 700); 
+            }, 9200); 
         });
     }
 });
@@ -71,25 +71,25 @@ function triggerDeepSpaceSequence() {
     const moonGroup = document.querySelector(".moon-group");
     const contentDiv = document.querySelector(".content");
 
-    // Sembunyikan elemen awal agar layar bersih sebelum transisi luar angkasa
+    // Sembunyikan elemen awal yang sudah tidak terpakai
     if (contentDiv) {
         contentDiv.style.transition = "opacity 1s ease";
         contentDiv.style.opacity = "0";
     }
 
-    // Munculkan kontainer luar angkasa secara mulus
+    // Munculkan kontainer luar angkasa
     if (spaceContainer) {
         spaceContainer.classList.add("active");
     }
 
-    // Bulan perlahan masuk ke layar 
+    // Bulan perlahan masuk layar dengan jeda tipis
     setTimeout(() => {
         if (moonGroup) {
             moonGroup.classList.add("active");
         }
     }, 400);
 
-    // Aktifkan efek gerak perlahan (camera drift & parallax)
+    // Aktifkan efek gerak perlahan (kamera & parallax)
     setTimeout(() => {
         document.body.classList.add("in-deep-space");
     }, 1200);
