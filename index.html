@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <section id="landing">
-    <!-- OUTER SPACE LAYER (Bintang & Bulan SVG) -->
+    <!-- LAYER LUAR ANGKASA (Bintang & Bulan) -->
     <div id="spaceContainer">
         <svg id="spaceSvg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -49,7 +50,7 @@
                 <circle cx="1580" cy="840" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-delayed" />
             </g>
 
-            <!-- LAYER 2: Bulan Minimalis NASA -->
+            <!-- LAYER 2: Bulan NASA Style -->
             <g id="layerMoon" class="moon-group">
                 <circle cx="0" cy="0" r="160" fill="url(#moonGlow)" />
                 <circle cx="0" cy="0" r="95" fill="url(#moonGrad)" />
@@ -61,12 +62,11 @@
                 </g>
             </g>
 
-            <!-- LAYER 3: Bintang Foreground Terang -->
+            <!-- LAYER 3: Bintang Foreground (Dekat) -->
             <g id="layerForegroundStars" class="star-layer">
                 <circle cx="380" cy="250" r="1.8" fill="#FFFFFF" opacity="0.6" class="twinkle-delayed" />
                 <circle cx="980" cy="180" r="2" fill="#E0F2FE" opacity="0.65" class="twinkle-fast" />
                 <circle cx="1520" cy="380" r="1.8" fill="#FFFFFF" opacity="0.55" class="twinkle-slow" />
-                
                 <circle cx="220" cy="720" r="2" fill="#E0F2FE" opacity="0.5" class="twinkle-slow" />
                 <circle cx="810" cy="680" r="1.8" fill="#FFFFFF" opacity="0.6" class="twinkle-fast" />
                 <circle cx="1450" cy="750" r="2" fill="#FFFFFF" opacity="0.55" class="twinkle-delayed" />
@@ -74,49 +74,38 @@
         </svg>
     </div>
 
+    <!-- KONTEN UTAMA (Teks & Roket) -->
     <div class="content">
-        <p class="small-title">
-            GRADUATION MISSION
-        </p>
-        <h1>
-            Untuk Farahdhyba 🌷
-        </h1>
-        <button id="launchButton">
-            🚀 Launch Artemis II
-        </button>
+        <p class="small-title">GRADUATION MISSION</p>
+        <h1>Untuk Farahdhyba 🌷</h1>
+        
+        <button id="launchButton">🚀 Launch Artemis II</button>
         <h2 id="countdown"></h2>
         
         <div id="rocketContainer">
-            <!-- Asap Bertahap (Kiri, Kanan, & Nozzle Bawah) -->
+            <!-- Asap Bertahap -->
             <div class="smoke-cloud smoke-left"></div>
             <div class="smoke-cloud smoke-right"></div>
             <div class="smoke-cloud smoke-nozzle"></div>
             
+            <!-- Vektor Roket Minimalis -->
             <svg id="rocket" width="100" height="160" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
-                <!-- Api (Mati/Sembunyi di awal) -->
                 <g id="flameGroup">
                     <path class="flame-main" d="M 40 120 Q 50 170 60 120 Z" fill="#ff9d00"/>
                     <path class="flame-core" d="M 45 120 Q 50 145 55 120 Z" fill="#ffea00"/>
                 </g>
-                
-                <!-- Sayap Aerodinamis -->
                 <path d="M 50 40 L 20 110 L 30 110 L 50 80 Z" fill="#dce1e6"/>
                 <path d="M 50 40 L 80 110 L 70 110 L 50 80 Z" fill="#dce1e6"/>
-                
-                <!-- Badan Roket Mulus -->
                 <path d="M 50 10 C 35 30 30 60 30 110 L 70 110 C 70 60 65 30 50 10 Z" fill="#ffffff"/>
                 <path d="M 50 10 C 60 25 70 60 70 110 L 65 110 C 65 65 57 30 50 10 Z" fill="#f0f2f5"/>
-                
-                <!-- Jendela Kabin Minimalis -->
                 <circle cx="50" cy="50" r="10" fill="#1d3d7a"/>
                 <circle cx="48" cy="48" r="4" fill="#8aa6d9"/> 
-                
-                <!-- Nozzle (Moncong Mesin) -->
                 <path d="M 35 110 L 65 110 L 60 120 L 40 120 Z" fill="#2c3e50"/>
             </svg>
         </div>
     </div>
 </section>
+
 <script src="script.js"></script>
 </body>
 </html>
