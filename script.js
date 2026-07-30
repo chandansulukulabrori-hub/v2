@@ -22,18 +22,18 @@ async function startLaunch(){
     for(const item of numbers){
         countdown.textContent = item;
 
-        // Di T-04, api mesin mulai menyala pelan
+        // Di T-04, api mesin menyala & asap mulai keluar tipis
         if(item === "T - 04") {
             rocketContainer.classList.add("engine-start");
         }
 
-        // Di IGNITION, Roket bergetar hebat & asap abu-abu mengepul
+        // Di IGNITION, Roket bergetar & asap mengepul tebal
         if(item === "IGNITION") {
             rocketContainer.classList.add("rocket-shake");
             document.body.classList.add("camera-shake"); 
         }
 
-        // Di LIFTOFF, Roket meluncur & Background Berubah jadi luar angkasa
+        // Di LIFTOFF, Roket melesat halus & langit berubah jadi luar angkasa
         if(item === "LIFTOFF 🚀") {
             rocketContainer.classList.remove("rocket-shake"); 
             document.body.classList.remove("camera-shake"); 
