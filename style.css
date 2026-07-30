@@ -52,7 +52,6 @@ h1 {
     transform: translateY(-3px);
 }
 
-/* --- Kurung kurawalnya udah aku tutup di sini --- */
 #countdown {
     margin-top: 40px;
     font-size: 90px;
@@ -61,11 +60,10 @@ h1 {
     display: none;
 }
 
-/* --- POSISI ROKET --- */
 #rocketContainer {
     display: none;
-    position: absolute; /* Biar roket nggak merusak posisi teks saat terbang */
-    bottom: 5%; 
+    position: absolute;
+    bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
     transition: all 0.3s ease;
@@ -75,7 +73,6 @@ h1 {
     overflow: visible;
 }
 
-/* --- FASE 3: ANIMASI ROKET & KAMERA --- */
 .rocket-shake {
     animation: shake 0.5s infinite;
 }
@@ -119,7 +116,6 @@ h1 {
     100% { opacity: 1; transform: scaleY(1.3); transform-origin: top; }
 }
 
-/* --- FASE 4: ANIMASI BACKGROUND KE LUAR ANGKASA --- */
 .to-space {
     animation: skyToSpace 2.5s ease-in forwards;
 }
