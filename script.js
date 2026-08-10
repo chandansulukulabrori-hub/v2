@@ -9,7 +9,7 @@ const numbers = [
     "T - 02",
     "T - 01",
     "IGNITION",
-    "LIFTOFF 🚀"
+    "LIFTOFF"
 ];
 
 // Event listener tombol launch
