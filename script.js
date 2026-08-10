@@ -35,7 +35,7 @@ async function startLaunch(){
         }
 
         // Pemicu 3: LIFTOFF (Terbang & langit berubah)
-        if(item === "LIFTOFF 🚀") {
+        if(item === "LIFTOFF") {
             rocketContainer.classList.remove("rocket-shake"); 
             document.body.classList.remove("camera-shake"); 
             
