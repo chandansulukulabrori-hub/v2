@@ -1,157 +1,198 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artemis II</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artemis II</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="spaceContainer">
-    <svg id="spaceSvg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="moonGrad" cx="35%" cy="35%" r="65%">
-                <stop offset="0%" stop-color="#F8FAFC" />
-                <stop offset="70%" stop-color="#CBD5E1" />
-                <stop offset="100%" stop-color="#64748B" />
-            </radialGradient>
-            <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#94A3B8" stop-opacity="0.25" />
-                <stop offset="100%" stop-color="#020814" stop-opacity="0" />
-            </radialGradient>
-            <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="3" />
-            </filter>
-        </defs>
+  <svg id="spaceSvg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="moonGrad" cx="35%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#F8FAFC" />
+        <stop offset="70%" stop-color="#CBD5E1" />
+        <stop offset="100%" stop-color="#64748B" />
+      </radialGradient>
+      <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#94A3B8" stop-opacity="0.25" />
+        <stop offset="100%" stop-color="#020814" stop-opacity="0" />
+      </radialGradient>
+      <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3" />
+      </filter>
+      <linearGradient id="meteorTrail" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0" />
+        <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.9" />
+      </linearGradient>
+    </defs>
 
-        <g id="layerDistantStars" class="star-layer">
-            <circle cx="250" cy="180" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-slow" />
-            <circle cx="520" cy="120" r="1.5" fill="#93C5FD" opacity="0.4" class="twinkle-delayed" />
-            <circle cx="840" cy="220" r="1" fill="#FFFFFF" opacity="0.25" class="twinkle-slow" />
-            <circle cx="1150" cy="150" r="1.2" fill="#FFFFFF" opacity="0.35" class="twinkle-fast" />
-            <circle cx="1450" cy="280" r="1" fill="#93C5FD" opacity="0.3" class="twinkle-delayed" />
-            <circle cx="1720" cy="130" r="1.5" fill="#FFFFFF" opacity="0.2" class="twinkle-slow" />
-            <circle cx="180" cy="480" r="1.2" fill="#FFFFFF" opacity="0.3" class="twinkle-fast" />
-            <circle cx="430" cy="550" r="1" fill="#FFFFFF" opacity="0.2" class="twinkle-slow" />
-            <circle cx="760" cy="420" r="1.5" fill="#93C5FD" opacity="0.35" class="twinkle-delayed" />
-            <circle cx="1080" cy="510" r="1" fill="#FFFFFF" opacity="0.25" class="twinkle-slow" />
-            <circle cx="1380" cy="460" r="1.2" fill="#FFFFFF" opacity="0.3" class="twinkle-fast" />
-            <circle cx="1650" cy="530" r="1" fill="#93C5FD" opacity="0.4" class="twinkle-delayed" />
-            <circle cx="310" cy="820" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-delayed" />
-            <circle cx="650" cy="780" r="1.5" fill="#FFFFFF" opacity="0.25" class="twinkle-slow" />
-            <circle cx="920" cy="850" r="1" fill="#93C5FD" opacity="0.35" class="twinkle-fast" />
-            <circle cx="1240" cy="790" r="1.2" fill="#FFFFFF" opacity="0.2" class="twinkle-slow" />
-            <circle cx="1580" cy="840" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-delayed" />
-        </g>
+    <g id="layerDistantStars" class="star-layer">
+      <circle cx="250" cy="180" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-slow" />
+      <circle cx="520" cy="120" r="1.5" fill="#93C5FD" opacity="0.4" class="twinkle-delayed" />
+      <circle cx="840" cy="220" r="1" fill="#FFFFFF" opacity="0.25" class="twinkle-slow" />
+      <circle cx="1150" cy="150" r="1.2" fill="#FFFFFF" opacity="0.35" class="twinkle-fast" />
+      <circle cx="1450" cy="280" r="1" fill="#93C5FD" opacity="0.3" class="twinkle-delayed" />
+      <circle cx="1720" cy="130" r="1.5" fill="#FFFFFF" opacity="0.2" class="twinkle-slow" />
+      <circle cx="180" cy="480" r="1.2" fill="#FFFFFF" opacity="0.3" class="twinkle-fast" />
+      <circle cx="430" cy="550" r="1" fill="#FFFFFF" opacity="0.2" class="twinkle-slow" />
+      <circle cx="760" cy="420" r="1.5" fill="#93C5FD" opacity="0.35" class="twinkle-delayed" />
+      <circle cx="1080" cy="510" r="1" fill="#FFFFFF" opacity="0.25" class="twinkle-slow" />
+      <circle cx="1380" cy="460" r="1.2" fill="#FFFFFF" opacity="0.3" class="twinkle-fast" />
+      <circle cx="1650" cy="530" r="1" fill="#93C5FD" opacity="0.4" class="twinkle-delayed" />
+      <circle cx="310" cy="820" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-delayed" />
+      <circle cx="650" cy="780" r="1.5" fill="#FFFFFF" opacity="0.25" class="twinkle-slow" />
+      <circle cx="920" cy="850" r="1" fill="#93C5FD" opacity="0.35" class="twinkle-fast" />
+      <circle cx="1240" cy="790" r="1.2" fill="#FFFFFF" opacity="0.2" class="twinkle-slow" />
+      <circle cx="1580" cy="840" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-delayed" />
+    </g>
 
-        <g id="layerMoon" class="moon-group">
-            <circle cx="0" cy="0" r="160" fill="url(#moonGlow)" />
-            <circle cx="0" cy="0" r="95" fill="url(#moonGrad)" />
-            <g opacity="0.12" filter="url(#softBlur)">
-                <ellipse cx="-25" cy="-30" rx="18" ry="12" fill="#334155" transform="rotate(-15 -25 -30)" />
-                <circle cx="35" cy="15" r="22" fill="#334155" />
-                <ellipse cx="-15" cy="40" rx="28" ry="16" fill="#334155" transform="rotate(20 -15 40)" />
-                <circle cx="20" cy="-45" r="12" fill="#334155" />
-            </g>
-        </g>
+    <g id="layerMoon" class="moon-group">
+      <circle cx="0" cy="0" r="160" fill="url(#moonGlow)" />
+      <circle cx="0" cy="0" r="95" fill="url(#moonGrad)" />
+      <g opacity="0.12" filter="url(#softBlur)">
+        <ellipse cx="-25" cy="-30" rx="18" ry="12" fill="#334155" transform="rotate(-15 -25 -30)" />
+        <circle cx="35" cy="15" r="22" fill="#334155" />
+        <ellipse cx="-15" cy="40" rx="28" ry="16" fill="#334155" transform="rotate(20 -15 40)" />
+        <circle cx="20" cy="-45" r="12" fill="#334155" />
+      </g>
+    </g>
 
-        <g id="layerForegroundStars" class="star-layer">
-            <circle cx="380" cy="250" r="1.8" fill="#FFFFFF" opacity="0.6" class="twinkle-delayed" />
-            <circle cx="980" cy="180" r="2" fill="#E0F2FE" opacity="0.65" class="twinkle-fast" />
-            <circle cx="1520" cy="380" r="1.8" fill="#FFFFFF" opacity="0.55" class="twinkle-slow" />
-            <circle cx="220" cy="720" r="2" fill="#E0F2FE" opacity="0.5" class="twinkle-slow" />
-            <circle cx="810" cy="680" r="1.8" fill="#FFFFFF" opacity="0.6" class="twinkle-fast" />
-            <circle cx="1450" cy="750" r="2" fill="#FFFFFF" opacity="0.55" class="twinkle-delayed" />
-        </g>
-    </svg>
+    <g id="layerForegroundStars" class="star-layer">
+      <circle cx="380" cy="250" r="1.8" fill="#FFFFFF" opacity="0.6" class="twinkle-delayed" />
+      <circle cx="980" cy="180" r="2" fill="#E0F2FE" opacity="0.65" class="twinkle-fast" />
+      <circle cx="1520" cy="380" r="1.8" fill="#FFFFFF" opacity="0.55" class="twinkle-slow" />
+      <circle cx="220" cy="720" r="2" fill="#E0F2FE" opacity="0.5" class="twinkle-slow" />
+      <circle cx="810" cy="680" r="1.8" fill="#FFFFFF" opacity="0.6" class="twinkle-fast" />
+      <circle cx="1450" cy="750" r="2" fill="#FFFFFF" opacity="0.55" class="twinkle-delayed" />
+    </g>
+
+    <!-- Shooting stars are injected here at runtime by script.js -->
+    <g id="layerMeteors"></g>
+  </svg>
 </div>
 
+<!-- Skip intro -->
+<button id="skipIntroBtn" class="hidden" aria-label="Lewati intro">Skip intro →</button>
+
+<!-- Mute toggle (controls background music + sfx) -->
+<button id="muteToggle" class="hidden" aria-label="Matikan suara" aria-pressed="false">🔊</button>
+
+<!-- Background music mini player -->
+<div id="musicPlayer" class="hidden">
+  <button id="musicPlayBtn" aria-label="Putar/jeda musik">🎵</button>
+  <span id="musicLabel">Ambient — deep space</span>
+</div>
+
+<audio id="bgMusic" loop preload="none">
+  <source src="assets/ambient-space.mp3" type="audio/mpeg">
+</audio>
+<audio id="sfxIgnition" preload="none">
+  <source src="assets/ignition.mp3" type="audio/mpeg">
+</audio>
+
 <section id="landing">
-    <div class="content">
-        <p class="small-title">GRADUATION MISSION</p>
-        <h1>Untuk Farahdhyba 🌷</h1>
-        
-        <button id="launchButton">🚀 Launch Artemis II</button>
-        <h2 id="countdown"></h2>
-        
-        <div id="rocketContainer">
-            <div class="smoke-cloud smoke-left"></div>
-            <div class="smoke-cloud smoke-right"></div>
-            <div class="smoke-cloud smoke-nozzle"></div>
-            
-            <svg id="rocket" width="100" height="160" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
-                <g id="flameGroup">
-                    <path class="flame-main" d="M 40 120 Q 50 170 60 120 Z" fill="#ff9d00"/>
-                    <path class="flame-core" d="M 45 120 Q 50 145 55 120 Z" fill="#ffea00"/>
-                </g>
-                <path d="M 50 40 L 20 110 L 30 110 L 50 80 Z" fill="#dce1e6"/>
-                <path d="M 50 40 L 80 110 L 70 110 L 50 80 Z" fill="#dce1e6"/>
-                <path d="M 50 10 C 35 30 30 60 30 110 L 70 110 C 70 60 65 30 50 10 Z" fill="#ffffff"/>
-                <path d="M 50 10 C 60 25 70 60 70 110 L 65 110 C 65 65 57 30 50 10 Z" fill="#f0f2f5"/>
-                <circle cx="50" cy="50" r="10" fill="#1d3d7a"/>
-                <circle cx="48" cy="48" r="4" fill="#8aa6d9"/> 
-                <path d="M 35 110 L 65 110 L 60 120 L 40 120 Z" fill="#2c3e50"/>
-            </svg>
-        </div>
+  <div class="content">
+    <p class="small-title">GRADUATION MISSION</p>
+    <h1>Untuk Farahdhyba 🌷</h1>
+    <button id="launchButton">🚀 Launch Artemis II</button>
+    <h2 id="countdown" aria-live="polite" aria-atomic="true"></h2>
+
+    <div id="rocketContainer">
+      <div class="smoke-cloud smoke-left"></div>
+      <div class="smoke-cloud smoke-right"></div>
+      <div class="smoke-cloud smoke-nozzle"></div>
+      <svg id="rocket" width="100" height="160" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+        <g id="flameGroup">
+          <path class="flame-main" d="M 40 120 Q 50 170 60 120 Z" fill="#ff9d00"/>
+          <path class="flame-core" d="M 45 120 Q 50 145 55 120 Z" fill="#ffea00"/>
+        </g>
+        <path d="M 50 40 L 20 110 L 30 110 L 50 80 Z" fill="#dce1e6"/>
+        <path d="M 50 40 L 80 110 L 70 110 L 50 80 Z" fill="#dce1e6"/>
+        <path d="M 50 10 C 35 30 30 60 30 110 L 70 110 C 70 60 65 30 50 10 Z" fill="#ffffff"/>
+        <path d="M 50 10 C 60 25 70 60 70 110 L 65 110 C 65 65 57 30 50 10 Z" fill="#f0f2f5"/>
+        <circle cx="50" cy="50" r="10" fill="#1d3d7a"/>
+        <circle cx="48" cy="48" r="4" fill="#8aa6d9"/>
+        <path d="M 35 110 L 65 110 L 60 120 L 40 120 Z" fill="#2c3e50"/>
+      </svg>
     </div>
+  </div>
 </section>
 
+<!-- Scroll progress dots -->
+<nav id="progressDots" class="hidden" aria-label="Progres cerita">
+  <button class="dot" data-index="0" aria-label="Bagian 1"></button>
+  <button class="dot" data-index="1" aria-label="Bagian 2"></button>
+  <button class="dot" data-index="2" aria-label="Bagian 3"></button>
+  <button class="dot" data-index="3" aria-label="Bagian 4"></button>
+</nav>
+
 <div id="postLaunchContent" class="hidden">
-    <section class="story-section">
-        <div class="text-block fade-on-scroll">
-            <p>Artemis membawa ribuan foto bulan.</p>
-            <p>Aku nggak punya foto sebanyak itu.</p>
-            <br>
-            <p>Tapi setiap kali buka galeri,</p>
-            <p>ada beberapa senyum yang selalu berhasil bikin hariku lebih ringan.</p>
-        </div>
-        
-        <div class="gallery horizontal-gallery fade-on-scroll">
-            <img src="assets/smile-1.jpg" alt="Foto 1">
-            <img src="assets/smile-2.jpg" alt="Foto 2">
-            <img src="assets/smile-3.jpg" alt="Foto 3">
-            <img src="assets/smile-4.jpg" alt="Foto 4">
-            <img src="assets/smile-5.jpg" alt="Foto 5">
-        </div>
-    </section>
 
-    <section class="story-section">
-        <div class="text-block main-message fade-on-scroll">
-            <p>Sayang, aku bangga kamu sekarang udah wisuda.<br>Kamu udah berjalan sejauh ini.</p>
-            <br>
-            <p>Kalau nanti kamu memilih mengejar mimpi-mimpimu,<br>aku akan tetap bangga sama kamu.</p>
-            <br>
-            <p>Kalau suatu saat hidup membuatmu harus menunda sebagian mimpimu,<br>aku juga akan menghormati pilihanmu.<br>Karena aku tahu, itu juga butuh keberanian.</p>
-            <br>
-            <p>Dan semoga, kalau memang ada mimpi yang harus ditunda,<br>Tuhan menggantinya dengan sesuatu yang jauh lebih baik<br>dari yang pernah kamu bayangkan.</p>
-            <br>
-            <p>Apa pun jalan yang nanti kamu pilih…<br>aku akan tetap bangga sama kamu.</p>
-        </div>
-    </section>
+  <section class="story-section" data-section-index="0">
+    <div class="text-block fade-on-scroll">
+      <p>Artemis membawa ribuan foto bulan.</p>
+      <p>Aku nggak punya foto sebanyak itu.</p>
+      <br>
+      <p>Tapi setiap kali buka galeri,</p>
+      <p>ada beberapa senyum yang selalu berhasil bikin hariku lebih ringan.</p>
+    </div>
+    <div class="gallery horizontal-gallery fade-on-scroll">
+      <img src="assets/smile-1.jpg" alt="Foto 1" class="lightbox-trigger" tabindex="0">
+      <img src="assets/smile-2.jpg" alt="Foto 2" class="lightbox-trigger" tabindex="0">
+      <img src="assets/smile-3.jpg" alt="Foto 3" class="lightbox-trigger" tabindex="0">
+      <img src="assets/smile-4.jpg" alt="Foto 4" class="lightbox-trigger" tabindex="0">
+      <img src="assets/smile-5.jpg" alt="Foto 5" class="lightbox-trigger" tabindex="0">
+    </div>
+  </section>
 
-    <section class="story-section">
-        <div class="gallery vertical-gallery fade-on-scroll">
-            <div class="gallery-item fade-on-scroll">
-                <img src="assets/grad-1.jpg" alt="Grad 1">
-                <p class="caption">after the defense</p>
-            </div>
-            <div class="gallery-item fade-on-scroll">
-                <img src="assets/grad-2.jpg" alt="Grad 2">
-                <p class="caption">one step further</p>
-            </div>
-            <div class="gallery-item fade-on-scroll">
-                <img src="assets/grad-3.jpg" alt="Grad 3">
-                <p class="caption">you made it</p>
-            </div>
-        </div>
-    </section>
+  <section class="story-section" data-section-index="1">
+    <div class="text-block main-message fade-on-scroll">
+      <p>Sayang, aku bangga kamu sekarang udah wisuda.<br>Kamu udah berjalan sejauh ini.</p>
+      <br>
+      <p>Kalau nanti kamu memilih mengejar mimpi-mimpimu,<br>aku akan tetap bangga sama kamu.</p>
+      <br>
+      <p>Kalau suatu saat hidup membuatmu harus menunda sebagian mimpimu,<br>aku juga akan menghormati pilihanmu.<br>Karena aku tahu, itu juga butuh keberanian.</p>
+      <br>
+      <p>Dan semoga, kalau memang ada mimpi yang harus ditunda,<br>Tuhan menggantinya dengan sesuatu yang jauh lebih baik<br>dari yang pernah kamu bayangkan.</p>
+      <br>
+      <p>Apa pun jalan yang nanti kamu pilih…<br>aku akan tetap bangga sama kamu.</p>
+    </div>
+  </section>
 
-    <section class="story-section ending-section">
-        <div class="fade-on-scroll">
-            <p class="ending-text">Until the next chapter.</p>
-        </div>
-    </section>
+  <section class="story-section" data-section-index="2">
+    <div class="gallery vertical-gallery fade-on-scroll">
+      <div class="gallery-item fade-on-scroll">
+        <img src="assets/grad-1.jpg" alt="Grad 1" class="lightbox-trigger" tabindex="0">
+        <p class="caption"><span class="caption-index">01</span><span class="caption-sep">·</span>after the defense</p>
+      </div>
+      <div class="gallery-item fade-on-scroll">
+        <img src="assets/grad-2.jpg" alt="Grad 2" class="lightbox-trigger" tabindex="0">
+        <p class="caption"><span class="caption-index">02</span><span class="caption-sep">·</span>one step further</p>
+      </div>
+      <div class="gallery-item fade-on-scroll">
+        <img src="assets/grad-3.jpg" alt="Grad 3" class="lightbox-trigger" tabindex="0">
+        <p class="caption"><span class="caption-index">03</span><span class="caption-sep">·</span>you made it</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="story-section ending-section" data-section-index="3">
+    <div class="fade-on-scroll" id="endingBlock">
+      <p class="ending-text">Until the next chapter.</p>
+      <button id="replayBtn">↻ Replay</button>
+    </div>
+    <div id="confettiLayer" aria-hidden="true"></div>
+  </section>
+
+</div>
+
+<!-- Lightbox -->
+<div id="lightboxOverlay" class="hidden" role="dialog" aria-modal="true" aria-label="Tampilan foto penuh">
+  <button id="lightboxClose" aria-label="Tutup">✕</button>
+  <img id="lightboxImage" src="" alt="">
 </div>
 
 <script src="script.js"></script>
