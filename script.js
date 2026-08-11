@@ -58,7 +58,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const launchBtn = document.getElementById("launchButton");
     if (launchBtn) {
         launchBtn.addEventListener("click", () => {
-            // Kalkulasi: 6s hitung mundur + 2.5s animasi terbang + 700ms jeda sinematik
+            // Kalkulasi: 6s hitung mundur + 2.5s animasi terbang + 700ms jeda sinematik = 9200ms
             setTimeout(() => {
                 triggerDeepSpaceSequence();
             }, 9200); 
@@ -69,12 +69,15 @@ window.addEventListener('DOMContentLoaded', () => {
 function triggerDeepSpaceSequence() {
     const spaceContainer = document.getElementById("spaceContainer");
     const moonGroup = document.querySelector(".moon-group");
-    const contentDiv = document.querySelector(".content");
+    const landingSection = document.getElementById("landing");
 
-    // Sembunyikan elemen awal yang sudah tidak terpakai
-    if (contentDiv) {
-        contentDiv.style.transition = "opacity 1s ease";
-        contentDiv.style.opacity = "0";
+    // Sembunyikan halaman awal (tulisan & roket yg udah terbang)
+    if (landingSection) {
+        landingSection.style.transition = "opacity 1s ease";
+        landingSection.style.opacity = "0";
+        setTimeout(() => {
+            landingSection.style.display = "none";
+        }, 1000);
     }
 
     // Munculkan kontainer luar angkasa
@@ -82,7 +85,7 @@ function triggerDeepSpaceSequence() {
         spaceContainer.classList.add("active");
     }
 
-    // Bulan perlahan masuk layar dengan jeda tipis
+    // Bulan perlahan masuk layar
     setTimeout(() => {
         if (moonGroup) {
             moonGroup.classList.add("active");
@@ -93,4 +96,43 @@ function triggerDeepSpaceSequence() {
     setTimeout(() => {
         document.body.classList.add("in-deep-space");
     }, 1200);
+
+    // Buka akses ke cerita & galeri setelah suasana tenang (3 detik setelah luar angkasa muncul)
+    setTimeout(() => {
+        showPostLaunchContent();
+    }, 3500);
+}
+
+function showPostLaunchContent() {
+    const postContent = document.getElementById("postLaunchContent");
+    
+    if(postContent) {
+        postContent.classList.remove("hidden");
+        // Force reflow agar transisi CSS jalan
+        void postContent.offsetWidth; 
+        postContent.style.opacity = "1";
+        
+        // Inisialisasi efek animasi saat scroll (fade-in-up)
+        initScrollObserver();
+    }
+}
+
+function initScrollObserver() {
+    const fadeElements = document.querySelectorAll('.fade-on-scroll');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // Jika elemen masuk ke dalam pandangan layar
+            if(entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Optional: hentikan observasi jika hanya ingin animasi 1x jalan
+                // observer.unobserve(entry.target); 
+            }
+        });
+    }, { 
+        threshold: 0.15, // Memicu animasi saat 15% elemen terlihat 
+        rootMargin: "0px 0px -50px 0px"
+    });
+
+    fadeElements.forEach(el => observer.observe(el));
 }
