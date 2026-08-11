@@ -182,6 +182,7 @@ h1 {
 }
 
 .to-space {
+    background-color: #020814; 
     animation: skyToSpace 3s ease-in forwards;
 }
 
@@ -247,6 +248,7 @@ h1 {
 }
 
 body.in-deep-space {
+    background-color: #020814; 
     animation: subtleCameraDrift 28s ease-in-out infinite;
     overflow-y: auto;
 }
