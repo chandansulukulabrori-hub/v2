@@ -7,7 +7,7 @@
 body {
     background: #ffffff;
     font-family: "Segoe UI", sans-serif;
-    overflow: hidden;
+    overflow: hidden; /* Akan diubah jadi auto via JS setelah launch */
 }
 
 #landing {
@@ -17,6 +17,7 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
+    z-index: 10;
 }
 
 .content {
@@ -184,7 +185,7 @@ h1 {
 }
 
 /* ========================================
-   OUTER SPACE & BACKGROUND (FASE 2)
+   OUTER SPACE & BACKGROUND
    ======================================== */
 .to-space {
     animation: skyToSpace 3s ease-in forwards;
@@ -199,7 +200,7 @@ h1 {
 }
 
 #spaceContainer {
-    position: absolute;
+    position: fixed; /* Fixed supaya diam elegan saat user scroll */
     top: 0;
     left: 0;
     width: 100vw;
@@ -227,17 +228,9 @@ h1 {
     transform-origin: 960px 540px;
 }
 
-.twinkle-slow {
-    animation: twinkleBase 5s ease-in-out infinite alternate;
-}
-
-.twinkle-fast {
-    animation: twinkleBase 2.5s ease-in-out infinite alternate;
-}
-
-.twinkle-delayed {
-    animation: twinkleBase 4s ease-in-out infinite alternate 1.5s;
-}
+.twinkle-slow { animation: twinkleBase 5s ease-in-out infinite alternate; }
+.twinkle-fast { animation: twinkleBase 2.5s ease-in-out infinite alternate; }
+.twinkle-delayed { animation: twinkleBase 4s ease-in-out infinite alternate 1.5s; }
 
 @keyframes twinkleBase {
     0% { opacity: 0.15; transform: scale(0.85); }
@@ -272,20 +265,146 @@ body.in-deep-space {
     animation: subtleCameraDrift 28s ease-in-out infinite;
 }
 
-body.in-deep-space #layerDistantStars {
-    animation: parallaxDistant 35s ease-in-out infinite alternate;
-}
-
-body.in-deep-space #layerForegroundStars {
-    animation: parallaxForeground 22s ease-in-out infinite alternate;
-}
+body.in-deep-space #layerDistantStars { animation: parallaxDistant 35s ease-in-out infinite alternate; }
+body.in-deep-space #layerForegroundStars { animation: parallaxForeground 22s ease-in-out infinite alternate; }
 
 @keyframes parallaxDistant {
     0% { transform: translate(0, 0); }
     100% { transform: translate(6px, 4px); }
 }
-
 @keyframes parallaxForeground {
     0% { transform: translate(0, 0); }
     100% { transform: translate(-14px, -10px); }
+}
+
+/* ========================================
+   POST-LAUNCH CONTENT (CERITA & GALERI)
+   ======================================== */
+#postLaunchContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto; /* Allow scrolling */
+    overflow-x: hidden;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+.story-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 20px;
+}
+
+/* Typography Pesan */
+.text-block {
+    max-width: 650px;
+    margin: 0 auto;
+    color: #F8FAFC;
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.9;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.main-message p {
+    margin-bottom: 8px;
+}
+
+/* Layout Galeri */
+.gallery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    width: 100%;
+}
+
+.horizontal-gallery {
+    flex-wrap: wrap;
+    gap: 24px;
+    max-width: 1000px;
+}
+
+.horizontal-gallery img {
+    width: 220px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    opacity: 0.85;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.horizontal-gallery img:hover {
+    opacity: 1;
+    transform: scale(1.02);
+}
+
+/* Vertical Timeline Galeri */
+.vertical-gallery {
+    flex-direction: column;
+    gap: 120px;
+    max-width: 600px;
+}
+
+.gallery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.gallery-item img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+.caption {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #94A3B8;
+    letter-spacing: 3px;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+/* Ending Text */
+.ending-section {
+    min-height: 70vh; /* Sedikit lebih pendek buat ending */
+}
+
+.ending-text {
+    font-size: 22px;
+    color: #CBD5E1;
+    font-weight: 200;
+    letter-spacing: 4px;
+}
+
+/* Animasi Masuk saat Di-scroll */
+.fade-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+
+.fade-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Khusus Utility */
+.hidden {
+    display: none !important;
 }
