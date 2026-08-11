@@ -248,6 +248,7 @@ h1 {
 
 body.in-deep-space {
     animation: subtleCameraDrift 28s ease-in-out infinite;
+    overflow-y: auto;
 }
 
 body.in-deep-space #layerDistantStars { animation: parallaxDistant 35s ease-in-out infinite alternate; }
@@ -267,9 +268,7 @@ body.in-deep-space #layerForegroundStars { animation: parallaxForeground 22s eas
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
-    overflow-y: auto; 
-    overflow-x: hidden;
+    min-height: 100vh;
     z-index: 20;
     opacity: 0;
     transition: opacity 2s ease;
