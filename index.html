@@ -1,200 +1,452 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Artemis II</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+/* ---------- Setup & references ---------- */
+const launchButton = document.getElementById("launchButton");
+const countdown = document.getElementById("countdown");
+const rocketContainer = document.getElementById("rocketContainer");
+const skipIntroBtn = document.getElementById("skipIntroBtn");
+const muteToggle = document.getElementById("muteToggle");
+const musicPlayer = document.getElementById("musicPlayer");
+const musicPlayBtn = document.getElementById("musicPlayBtn");
+const musicNextBtn = document.getElementById("musicNextBtn");
+const musicLabel = document.getElementById("musicLabel");
+const bgMusic = document.getElementById("bgMusic");
+const sfxIgnition = document.getElementById("sfxIgnition");
+const replayBtn = document.getElementById("replayBtn");
+const progressDots = document.getElementById("progressDots");
+const lightboxOverlay = document.getElementById("lightboxOverlay");
+const lightboxImage = document.getElementById("lightboxImage");
+const lightboxClose = document.getElementById("lightboxClose");
+const confettiLayer = document.getElementById("confettiLayer");
 
-<div id="spaceContainer">
-  <svg id="spaceSvg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="moonGrad" cx="35%" cy="35%" r="65%">
-        <stop offset="0%" stop-color="#F8FAFC" />
-        <stop offset="70%" stop-color="#CBD5E1" />
-        <stop offset="100%" stop-color="#64748B" />
-      </radialGradient>
-      <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#94A3B8" stop-opacity="0.25" />
-        <stop offset="100%" stop-color="#020814" stop-opacity="0" />
-      </radialGradient>
-      <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" />
-      </filter>
-      <linearGradient id="meteorTrail" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0" />
-        <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.9" />
-      </linearGradient>
-    </defs>
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    <g id="layerDistantStars" class="star-layer">
-      <circle cx="250" cy="180" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-slow" />
-      <circle cx="520" cy="120" r="1.5" fill="#93C5FD" opacity="0.4" class="twinkle-delayed" />
-      <circle cx="840" cy="220" r="1" fill="#FFFFFF" opacity="0.25" class="twinkle-slow" />
-      <circle cx="1150" cy="150" r="1.2" fill="#FFFFFF" opacity="0.35" class="twinkle-fast" />
-      <circle cx="1450" cy="280" r="1" fill="#93C5FD" opacity="0.3" class="twinkle-delayed" />
-      <circle cx="1720" cy="130" r="1.5" fill="#FFFFFF" opacity="0.2" class="twinkle-slow" />
-      <circle cx="180" cy="480" r="1.2" fill="#FFFFFF" opacity="0.3" class="twinkle-fast" />
-      <circle cx="430" cy="550" r="1" fill="#FFFFFF" opacity="0.2" class="twinkle-slow" />
-      <circle cx="760" cy="420" r="1.5" fill="#93C5FD" opacity="0.35" class="twinkle-delayed" />
-      <circle cx="1080" cy="510" r="1" fill="#FFFFFF" opacity="0.25" class="twinkle-slow" />
-      <circle cx="1380" cy="460" r="1.2" fill="#FFFFFF" opacity="0.3" class="twinkle-fast" />
-      <circle cx="1650" cy="530" r="1" fill="#93C5FD" opacity="0.4" class="twinkle-delayed" />
-      <circle cx="310" cy="820" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-delayed" />
-      <circle cx="650" cy="780" r="1.5" fill="#FFFFFF" opacity="0.25" class="twinkle-slow" />
-      <circle cx="920" cy="850" r="1" fill="#93C5FD" opacity="0.35" class="twinkle-fast" />
-      <circle cx="1240" cy="790" r="1.2" fill="#FFFFFF" opacity="0.2" class="twinkle-slow" />
-      <circle cx="1580" cy="840" r="1" fill="#FFFFFF" opacity="0.3" class="twinkle-delayed" />
-    </g>
+const numbers = [
+    "T - 05",
+    "T - 04",
+    "T - 03",
+    "T - 02",
+    "T - 01",
+    "IGNITION",
+    "LIFTOFF"
+];
 
-    <g id="layerMoon" class="moon-group">
-      <circle cx="0" cy="0" r="160" fill="url(#moonGlow)" />
-      <circle cx="0" cy="0" r="95" fill="url(#moonGrad)" />
-      <g opacity="0.12" filter="url(#softBlur)">
-        <ellipse cx="-25" cy="-30" rx="18" ry="12" fill="#334155" transform="rotate(-15 -25 -30)" />
-        <circle cx="35" cy="15" r="22" fill="#334155" />
-        <ellipse cx="-15" cy="40" rx="28" ry="16" fill="#334155" transform="rotate(20 -15 40)" />
-        <circle cx="20" cy="-45" r="12" fill="#334155" />
-      </g>
-    </g>
+// Durasi animasi CSS yang harus ditunggu SETELAH langkah "LIFTOFF" tampil,
+// supaya sequence ruang angkasa gak mulai sebelum roket & transisi langit selesai.
+// - .rocket-liftoff (di style.css) durasinya 2.5s
+// - .to-space (di style.css) durasinya 3s
+// Diambil yang paling lama, ditambah sedikit jeda (200ms) biar mulus.
+const LIFTOFF_ANIM_MS = 2500;
+const SKY_TRANSITION_MS = 3000;
+const POST_LIFTOFF_BUFFER_MS = 200;
+const WAIT_AFTER_LIFTOFF_MS = Math.max(LIFTOFF_ANIM_MS, SKY_TRANSITION_MS) + POST_LIFTOFF_BUFFER_MS;
 
-    <g id="layerForegroundStars" class="star-layer">
-      <circle cx="380" cy="250" r="1.8" fill="#FFFFFF" opacity="0.6" class="twinkle-delayed" />
-      <circle cx="980" cy="180" r="2" fill="#E0F2FE" opacity="0.65" class="twinkle-fast" />
-      <circle cx="1520" cy="380" r="1.8" fill="#FFFFFF" opacity="0.55" class="twinkle-slow" />
-      <circle cx="220" cy="720" r="2" fill="#E0F2FE" opacity="0.5" class="twinkle-slow" />
-      <circle cx="810" cy="680" r="1.8" fill="#FFFFFF" opacity="0.6" class="twinkle-fast" />
-      <circle cx="1450" cy="750" r="2" fill="#FFFFFF" opacity="0.55" class="twinkle-delayed" />
-    </g>
+// Kalau user minta reduced motion, sequence tetap terjadi (state akhirnya sama)
+// tapi jeda antar-langkah dipangkas jauh supaya nggak "maksa" nunggu ~13 detik.
+const COUNTDOWN_STEP_MS = prefersReducedMotion ? 120 : 1000;
+const WAIT_AFTER_LIFTOFF_EFFECTIVE_MS = prefersReducedMotion ? 250 : WAIT_AFTER_LIFTOFF_MS;
+const DEEP_SPACE_REVEAL_MS = prefersReducedMotion ? 300 : 3500;
 
-    <!-- Shooting stars are injected here at runtime by script.js -->
-    <g id="layerMeteors"></g>
-  </svg>
-</div>
+let audioUnlocked = false;
+let isMuted = false;
+let sequenceStarted = false;
 
-<!-- Skip intro -->
-<button id="skipIntroBtn" class="hidden" aria-label="Lewati intro">Skip intro →</button>
+/* ---------- Playlist musik latar (2 lagu, muter bergantian) ---------- */
+// Nama file dibungkus encodeURI() supaya spasi di "About You.mp3" tetap aman
+// dibuka di semua browser (iOS Safari & Chrome termasuk yang cerewet soal ini).
+const PLAYLIST = [
+    { title: "Beautiful", src: encodeURI("Beautiful.mp3") },
+    { title: "About You", src: encodeURI("About You.mp3") }
+];
+let currentTrackIndex = 0;
 
-<!-- Mute toggle (controls background music + sfx) -->
-<button id="muteToggle" class="hidden" aria-label="Matikan suara" aria-pressed="false">🔊</button>
+launchButton.addEventListener("click", handleLaunchClick);
+skipIntroBtn.addEventListener("click", skipIntro);
+muteToggle.addEventListener("click", toggleMute);
+musicPlayBtn.addEventListener("click", toggleMusic);
+musicNextBtn.addEventListener("click", () => playTrack(nextTrackIndex(), true));
+replayBtn.addEventListener("click", resetAndReplay);
 
-<!-- Background music mini player -->
-<div id="musicPlayer" class="hidden">
-  <button id="musicPlayBtn" aria-label="Putar/jeda musik">🎵</button>
-  <span id="musicLabel">Ambient — deep space</span>
-</div>
+/* ---------- Image fallback ---------- */
+// SVG placeholder ringan (bintang) dipakai kalau foto asli gagal dimuat,
+// supaya gak nampilin broken-image icon browser.
+const FALLBACK_IMG_SRC =
+    "data:image/svg+xml;charset=UTF-8," +
+    encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">' +
+        '<rect width="300" height="300" fill="#1d3d7a"/>' +
+        '<path d="M150 70 L168 122 L224 122 L179 155 L196 208 L150 175 L104 208 L121 155 L76 122 L132 122 Z" fill="#F8FAFC" opacity="0.85"/>' +
+        '</svg>'
+    );
 
-<audio id="bgMusic" loop preload="none">
-  <source src="assets/ambient-space.mp3" type="audio/mpeg">
-</audio>
-<audio id="sfxIgnition" preload="none">
-  <source src="assets/ignition.mp3" type="audio/mpeg">
-</audio>
+function attachImageFallbacks() {
+    document.querySelectorAll("img").forEach((img) => {
+        img.addEventListener(
+            "error",
+            function onError() {
+                img.removeEventListener("error", onError);
+                img.src = FALLBACK_IMG_SRC;
+                img.alt = img.alt || "Foto tidak dapat dimuat";
+                img.classList.add("img-fallback");
+            },
+            { once: true }
+        );
+    });
+}
+attachImageFallbacks();
 
-<section id="landing">
-  <div class="content">
-    <p class="small-title">GRADUATION MISSION</p>
-    <h1>Untuk Farahdhyba 🌷</h1>
-    <button id="launchButton">🚀 Launch Artemis II</button>
-    <h2 id="countdown" aria-live="polite" aria-atomic="true"></h2>
+/* ---------- Skip intro ---------- */
+skipIntroBtn.classList.remove("hidden");
 
-    <div id="rocketContainer">
-      <div class="smoke-cloud smoke-left"></div>
-      <div class="smoke-cloud smoke-right"></div>
-      <div class="smoke-cloud smoke-nozzle"></div>
-      <svg id="rocket" width="100" height="160" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
-        <g id="flameGroup">
-          <path class="flame-main" d="M 40 120 Q 50 170 60 120 Z" fill="#ff9d00"/>
-          <path class="flame-core" d="M 45 120 Q 50 145 55 120 Z" fill="#ffea00"/>
-        </g>
-        <path d="M 50 40 L 20 110 L 30 110 L 50 80 Z" fill="#dce1e6"/>
-        <path d="M 50 40 L 80 110 L 70 110 L 50 80 Z" fill="#dce1e6"/>
-        <path d="M 50 10 C 35 30 30 60 30 110 L 70 110 C 70 60 65 30 50 10 Z" fill="#ffffff"/>
-        <path d="M 50 10 C 60 25 70 60 70 110 L 65 110 C 65 65 57 30 50 10 Z" fill="#f0f2f5"/>
-        <circle cx="50" cy="50" r="10" fill="#1d3d7a"/>
-        <circle cx="48" cy="48" r="4" fill="#8aa6d9"/>
-        <path d="M 35 110 L 65 110 L 60 120 L 40 120 Z" fill="#2c3e50"/>
-      </svg>
-    </div>
-  </div>
-</section>
+function skipIntro() {
+    // Lompat langsung ke keadaan akhir sequence tanpa animasi.
+    unlockAudio();
+    launchButton.style.display = "none";
+    countdown.style.display = "none";
+    rocketContainer.style.display = "none";
+    const landingSection = document.getElementById("landing");
+    if (landingSection) landingSection.style.display = "none";
+    const spaceContainer = document.getElementById("spaceContainer");
+    if (spaceContainer) spaceContainer.classList.add("active");
+    const moonGroup = document.querySelector(".moon-group");
+    if (moonGroup) moonGroup.classList.add("active");
+    document.body.classList.add("in-deep-space");
+    skipIntroBtn.classList.add("hidden");
+    showPostLaunchContent();
+}
 
-<!-- Scroll progress dots -->
-<nav id="progressDots" class="hidden" aria-label="Progres cerita">
-  <button class="dot" data-index="0" aria-label="Bagian 1"></button>
-  <button class="dot" data-index="1" aria-label="Bagian 2"></button>
-  <button class="dot" data-index="2" aria-label="Bagian 3"></button>
-  <button class="dot" data-index="3" aria-label="Bagian 4"></button>
-</nav>
+/* ---------- Launch sequence ---------- */
+async function handleLaunchClick() {
+    if (sequenceStarted) return;
+    sequenceStarted = true;
+    unlockAudio();
+    skipIntroBtn.classList.remove("hidden");
+    await startLaunch();
+    await sleep(WAIT_AFTER_LIFTOFF_EFFECTIVE_MS);
+    triggerDeepSpaceSequence();
+}
 
-<div id="postLaunchContent" class="hidden">
+async function startLaunch() {
+    launchButton.style.display = "none";
+    countdown.style.display = "block";
+    rocketContainer.style.display = "block";
+    for (const item of numbers) {
+        countdown.textContent = item;
+        if (item === "T - 04") {
+            rocketContainer.classList.add("engine-start");
+        }
+        if (item === "IGNITION") {
+            rocketContainer.classList.add("rocket-shake");
+            document.body.classList.add("camera-shake");
+            playSfx(sfxIgnition);
+        }
+        if (item === "LIFTOFF") {
+            rocketContainer.classList.remove("rocket-shake");
+            document.body.classList.remove("camera-shake");
+            rocketContainer.classList.add("rocket-liftoff");
+            document.body.classList.add("to-space");
+        }
+        await sleep(COUNTDOWN_STEP_MS);
+    }
+}
 
-  <section class="story-section" data-section-index="0">
-    <div class="text-block fade-on-scroll">
-      <p>Artemis membawa ribuan foto bulan.</p>
-      <p>Aku nggak punya foto sebanyak itu.</p>
-      <br>
-      <p>Tapi setiap kali buka galeri,</p>
-      <p>ada beberapa senyum yang selalu berhasil bikin hariku lebih ringan.</p>
-    </div>
-    <div class="gallery horizontal-gallery fade-on-scroll">
-      <img src="assets/smile-1.jpg" alt="Foto 1" class="lightbox-trigger" tabindex="0">
-      <img src="assets/smile-2.jpg" alt="Foto 2" class="lightbox-trigger" tabindex="0">
-      <img src="assets/smile-3.jpg" alt="Foto 3" class="lightbox-trigger" tabindex="0">
-      <img src="assets/smile-4.jpg" alt="Foto 4" class="lightbox-trigger" tabindex="0">
-      <img src="assets/smile-5.jpg" alt="Foto 5" class="lightbox-trigger" tabindex="0">
-    </div>
-  </section>
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-  <section class="story-section" data-section-index="1">
-    <div class="text-block main-message fade-on-scroll">
-      <p>Sayang, aku bangga kamu sekarang udah wisuda.<br>Kamu udah berjalan sejauh ini.</p>
-      <br>
-      <p>Kalau nanti kamu memilih mengejar mimpi-mimpimu,<br>aku akan tetap bangga sama kamu.</p>
-      <br>
-      <p>Kalau suatu saat hidup membuatmu harus menunda sebagian mimpimu,<br>aku juga akan menghormati pilihanmu.<br>Karena aku tahu, itu juga butuh keberanian.</p>
-      <br>
-      <p>Dan semoga, kalau memang ada mimpi yang harus ditunda,<br>Tuhan menggantinya dengan sesuatu yang jauh lebih baik<br>dari yang pernah kamu bayangkan.</p>
-      <br>
-      <p>Apa pun jalan yang nanti kamu pilih…<br>aku akan tetap bangga sama kamu.</p>
-    </div>
-  </section>
+function triggerDeepSpaceSequence() {
+    const spaceContainer = document.getElementById("spaceContainer");
+    const moonGroup = document.querySelector(".moon-group");
+    const landingSection = document.getElementById("landing");
+    if (landingSection) {
+        landingSection.style.transition = "opacity 1s ease";
+        landingSection.style.opacity = "0";
+        setTimeout(() => {
+            landingSection.style.display = "none";
+        }, prefersReducedMotion ? 50 : 1000);
+    }
+    if (spaceContainer) {
+        spaceContainer.classList.add("active");
+    }
+    setTimeout(() => {
+        if (moonGroup) moonGroup.classList.add("active");
+    }, prefersReducedMotion ? 60 : 400);
+    setTimeout(() => {
+        document.body.classList.add("in-deep-space");
+        startMeteorShower();
+    }, prefersReducedMotion ? 100 : 1200);
+    setTimeout(() => {
+        showPostLaunchContent();
+        skipIntroBtn.classList.add("hidden");
+    }, DEEP_SPACE_REVEAL_MS);
+}
 
-  <section class="story-section" data-section-index="2">
-    <div class="gallery vertical-gallery fade-on-scroll">
-      <div class="gallery-item fade-on-scroll">
-        <img src="assets/grad-1.jpg" alt="Grad 1" class="lightbox-trigger" tabindex="0">
-        <p class="caption"><span class="caption-index">01</span><span class="caption-sep">·</span>after the defense</p>
-      </div>
-      <div class="gallery-item fade-on-scroll">
-        <img src="assets/grad-2.jpg" alt="Grad 2" class="lightbox-trigger" tabindex="0">
-        <p class="caption"><span class="caption-index">02</span><span class="caption-sep">·</span>one step further</p>
-      </div>
-      <div class="gallery-item fade-on-scroll">
-        <img src="assets/grad-3.jpg" alt="Grad 3" class="lightbox-trigger" tabindex="0">
-        <p class="caption"><span class="caption-index">03</span><span class="caption-sep">·</span>you made it</p>
-      </div>
-    </div>
-  </section>
+function showPostLaunchContent() {
+    const postContent = document.getElementById("postLaunchContent");
+    if (postContent) {
+        postContent.classList.remove("hidden");
+        void postContent.offsetWidth;
+        postContent.style.opacity = "1";
+        initScrollObserver();
+        initProgressDots();
+        progressDots.classList.remove("hidden");
+    }
+    fadeInMusicPlayer();
+}
 
-  <section class="story-section ending-section" data-section-index="3">
-    <div class="fade-on-scroll" id="endingBlock">
-      <p class="ending-text">Until the next chapter.</p>
-      <button id="replayBtn">↻ Replay</button>
-    </div>
-    <div id="confettiLayer" aria-hidden="true"></div>
-  </section>
+function initScrollObserver() {
+    const fadeElements = document.querySelectorAll(".fade-on-scroll");
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    if (entry.target.id === "endingBlock") {
+                        spawnConfetti();
+                    }
+                }
+            });
+        },
+        {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        }
+    );
+    fadeElements.forEach((el) => observer.observe(el));
+}
 
-</div>
+/* ---------- Progress dots ---------- */
+function initProgressDots() {
+    const sections = document.querySelectorAll(".story-section");
+    const dots = document.querySelectorAll(".dot");
+    dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+            const index = Number(dot.dataset.index);
+            const target = document.querySelector(
+                `.story-section[data-section-index="${index}"]`
+            );
+            if (target) target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+        });
+    });
 
-<!-- Lightbox -->
-<div id="lightboxOverlay" class="hidden" role="dialog" aria-modal="true" aria-label="Tampilan foto penuh">
-  <button id="lightboxClose" aria-label="Tutup">✕</button>
-  <img id="lightboxImage" src="" alt="">
-</div>
+    const dotObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const index = entry.target.dataset.sectionIndex;
+                    dots.forEach((d) => d.classList.toggle("active", d.dataset.index === index));
+                }
+            });
+        },
+        { threshold: 0.5 }
+    );
+    sections.forEach((s) => dotObserver.observe(s));
+}
 
-<script src="script.js"></script>
-</body>
-</html>
+/* ---------- Lightbox (klik foto = full screen) ---------- */
+function openLightbox(src, alt) {
+    lightboxImage.src = src;
+    lightboxImage.alt = alt || "";
+    lightboxOverlay.classList.remove("hidden");
+}
+
+function closeLightbox() {
+    lightboxOverlay.classList.add("hidden");
+    lightboxImage.src = "";
+}
+
+document.addEventListener("click", (e) => {
+    const trigger = e.target.closest(".lightbox-trigger");
+    if (trigger) openLightbox(trigger.src, trigger.alt);
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.target.classList && e.target.classList.contains("lightbox-trigger") && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        openLightbox(e.target.src, e.target.alt);
+    }
+    if (e.key === "Escape") closeLightbox();
+});
+
+lightboxClose.addEventListener("click", closeLightbox);
+lightboxOverlay.addEventListener("click", (e) => {
+    if (e.target === lightboxOverlay) closeLightbox();
+});
+
+/* ---------- Shooting stars / meteors ---------- */
+function startMeteorShower() {
+    if (prefersReducedMotion) return; // ambient decorative motion skipped
+    const layer = document.getElementById("layerMeteors");
+    if (!layer) return;
+
+    function spawnMeteor() {
+        const startX = 300 + Math.random() * 1300;
+        const startY = 60 + Math.random() * 300;
+        const length = 90 + Math.random() * 60;
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", startX);
+        line.setAttribute("y1", startY);
+        line.setAttribute("x2", startX - length);
+        line.setAttribute("y2", startY + length * 0.55);
+        line.setAttribute("class", "meteor");
+        layer.appendChild(line);
+        requestAnimationFrame(() => {
+            line.classList.add("fire");
+        });
+        setTimeout(() => line.remove(), 1800);
+    }
+
+    spawnMeteor();
+    window.__meteorInterval = setInterval(() => {
+        if (document.body.classList.contains("in-deep-space")) {
+            spawnMeteor();
+        }
+    }, 4500 + Math.random() * 3000);
+}
+
+function stopMeteorShower() {
+    if (window.__meteorInterval) {
+        clearInterval(window.__meteorInterval);
+        window.__meteorInterval = null;
+    }
+    const layer = document.getElementById("layerMeteors");
+    if (layer) layer.innerHTML = "";
+}
+
+/* ---------- Confetti / falling hearts on ending ---------- */
+function spawnConfetti() {
+    if (!confettiLayer || confettiLayer.dataset.done === "true") return;
+    confettiLayer.dataset.done = "true";
+    if (prefersReducedMotion) return;
+
+    const symbols = ["🤍", "✨", "⭐", "🤍", "✨"];
+    const pieces = 26;
+    for (let i = 0; i < pieces; i++) {
+        const span = document.createElement("span");
+        span.className = "confetti-piece";
+        span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        span.style.left = Math.random() * 100 + "%";
+        span.style.animationDuration = 3 + Math.random() * 3 + "s";
+        span.style.animationDelay = Math.random() * 1.5 + "s";
+        span.style.fontSize = 12 + Math.random() * 14 + "px";
+        confettiLayer.appendChild(span);
+        setTimeout(() => span.remove(), 8000);
+    }
+}
+
+/* ---------- Audio: playlist 2 lagu + sfx + mute ---------- */
+
+function nextTrackIndex() {
+    return (currentTrackIndex + 1) % PLAYLIST.length;
+}
+
+// Muat & (opsional) langsung mainkan track pada index tertentu.
+// Dipanggil pas unlock pertama kali, pas klik tombol next, dan pas satu lagu selesai.
+function playTrack(index, autoplay) {
+    currentTrackIndex = index;
+    const track = PLAYLIST[currentTrackIndex];
+    bgMusic.src = track.src;
+    musicLabel.textContent = track.title;
+    if (autoplay) {
+        bgMusic.play().catch(() => {
+            // Browser blokir autoplay di luar gesture, atau file asetnya belum ada.
+        });
+        musicPlayBtn.textContent = "🎵";
+    }
+}
+
+// Lagu lanjut otomatis ke berikutnya begitu satu track selesai, muter terus 2 lagu bergiliran.
+bgMusic.addEventListener("ended", () => {
+    playTrack(nextTrackIndex(), true);
+});
+
+function unlockAudio() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    muteToggle.classList.remove("hidden");
+    if (bgMusic) {
+        bgMusic.volume = 0.35;
+        playTrack(currentTrackIndex, false);
+        bgMusic.play().then(() => {
+            musicPlayBtn.textContent = "🎵";
+        }).catch(() => {
+            // Autoplay diblokir atau file asset belum ada — sembunyikan player, gak masalah.
+            musicPlayer.classList.add("hidden");
+        });
+    }
+}
+
+function fadeInMusicPlayer() {
+    if (!bgMusic) return;
+    // Hanya tampilkan mini player kalau musiknya berhasil kepasang & jalan.
+    bgMusic.addEventListener(
+        "canplay",
+        () => {
+            if (!bgMusic.error) musicPlayer.classList.remove("hidden");
+        },
+        { once: true }
+    );
+    bgMusic.addEventListener(
+        "error",
+        () => {
+            musicPlayer.classList.add("hidden");
+        },
+        { once: true }
+    );
+    if (bgMusic.readyState >= 2 && !bgMusic.error) {
+        musicPlayer.classList.remove("hidden");
+    }
+}
+
+function toggleMusic() {
+    if (!bgMusic) return;
+    if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+        musicPlayBtn.textContent = "🎵";
+    } else {
+        bgMusic.pause();
+        musicPlayBtn.textContent = "▶";
+    }
+}
+
+function toggleMute() {
+    isMuted = !isMuted;
+    if (bgMusic) bgMusic.muted = isMuted;
+    if (sfxIgnition) sfxIgnition.muted = isMuted;
+    muteToggle.textContent = isMuted ? "🔇" : "🔊";
+    muteToggle.setAttribute("aria-pressed", String(isMuted));
+}
+
+function playSfx(el) {
+    if (!el || isMuted) return;
+    el.currentTime = 0;
+    el.play().catch(() => {
+        /* Asset suara belum ada / diblokir browser — abaikan dengan tenang. */
+    });
+}
+
+/* ---------- Replay ---------- */
+function resetAndReplay() {
+    stopMeteorShower();
+    confettiLayer.innerHTML = "";
+    confettiLayer.dataset.done = "false";
+    document.querySelectorAll(".fade-on-scroll").forEach((el) => el.classList.remove("visible"));
+    const postContent = document.getElementById("postLaunchContent");
+    postContent.style.opacity = "0";
+    postContent.classList.add("hidden");
+    progressDots.classList.add("hidden");
+    const landingSection = document.getElementById("landing");
+    landingSection.style.display = "flex";
+    landingSection.style.opacity = "1";
+    document.body.classList.remove("in-deep-space", "to-space", "camera-shake");
+    const spaceContainer = document.getElementById("spaceContainer");
+    spaceContainer.classList.remove("active");
+    document.querySelector(".moon-group").classList.remove("active");
+    rocketContainer.classList.remove("engine-start", "rocket-shake", "rocket-liftoff");
+    rocketContainer.style.display = "none";
+    countdown.style.display = "none";
+    countdown.textContent = "";
+    launchButton.style.display = "inline-block";
+    window.scrollTo({ top: 0, behavior: "auto" });
+    sequenceStarted = false;
+    // Musik latar sengaja TIDAK direset — biar lagu tetap lanjut sebagai ambiance,
+    // gak keputus cuma karena cerita di-replay dari awal.
+}
